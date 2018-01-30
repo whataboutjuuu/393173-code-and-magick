@@ -14,7 +14,12 @@ var BAR_WIDTH = 40;
 var BAR_GAP = 50;
 var BAR_HEIGHT = 150;
 
+var PARTICIPANTS = 4;
+
 var baseline = CLOUD_Y + GAP + headingHeight + BAR_HEIGHT;
+var allBarsWidth = (BAR_WIDTH + BAR_GAP) * PARTICIPANTS;
+var startBarBoard = (CLOUD_X + CLOUD_WIDTH / 2) - allBarsWidth / 2 + BAR_GAP / 2;
+
 var maxTime;
 var columnColor;
 
@@ -68,11 +73,11 @@ window.renderStatistics = function (ctx, players, times) {
       columnColor = 'rgba(0, 0, 255, ' + Math.random() + ')';
     }
     ctx.fillStyle = columnColor;
-    ctx.fillRect(CLOUD_X + 2 * GAP + (BAR_WIDTH + BAR_GAP) * i, columnStart, BAR_WIDTH, columnHeight);
+    ctx.fillRect(startBarBoard + (BAR_WIDTH + BAR_GAP) * i, columnStart, BAR_WIDTH, columnHeight);
     // Выводим время над колонкой и имя игрока под колонкой
     ctx.fillStyle = '#000';
-    ctx.fillText(time, CLOUD_X + 2 * GAP + (BAR_WIDTH + BAR_GAP) * i, columnStart - lineHeight);
-    ctx.fillText(players[i], CLOUD_X + 2 * GAP + (BAR_WIDTH + BAR_GAP) * i, baseline + lineHeight);
+    ctx.fillText(time, startBarBoard + (BAR_WIDTH + BAR_GAP) * i, columnStart - lineHeight);
+    ctx.fillText(players[i], startBarBoard + (BAR_WIDTH + BAR_GAP) * i, baseline + lineHeight);
   }
 
 };
