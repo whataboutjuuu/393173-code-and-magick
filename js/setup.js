@@ -1,97 +1,50 @@
 'use strict';
 
+var WIZARD_COUNT = 4;
+var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
+
 // показываем блок setup
 document.querySelector('.setup').classList.remove('hidden');
 
+// функция для тасования элементов массива
+var shuffleArray = function (array) {
+  var currentIndex = array.length;
+  var temporaryValue;
+  var randomIndex;
 
-var setupSimilarList = document.querySelector('.setup-similar-list');
-var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+  while (currentIndex > 0) {
 
-
-var wizardNames = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var wizardSurnames = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var wizardCoatColors = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var wizardEyesColors = ['black', 'red', 'blue', 'yellow', 'green'];
-
-//
-var WIZARD_COUNT = 4;
-
-var generateRandom = function (arr1, arr2) {
-  var result = [];
-
-  for (var i = 0; i < arr1.length; i++) {
-    var randomIndex = Math.floor(Math.random() * arr1.length);
-
-    if (arr2 !== undefined) {
-      result[i] = arr1[randomIndex] + ' ' + arr2[randomIndex];
-      arr1.splice(randomIndex, 1);
-      arr2.splice(randomIndex, 1);
-    } else {
-      result[i] = arr1[i];
-      arr1.splice(randomIndex, 1);
-    }
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
   }
-
-  return result;
+  return array;
 };
 
-// генерируем массив персонажей
+// генерация массива персонажей
 var generateWizard = function () {
-
   var wizards = [];
-  var resultNames = generateRandom(wizardNames, wizardSurnames);
-  var resultCoatColors = generateRandom(wizardCoatColors);
-  var resultEyesColors = generateRandom(wizardEyesColors);
+  var resultNames = shuffleArray(WIZARD_NAMES);
+  var resultSurnames = shuffleArray(WIZARD_SURNAMES);
+  var resultCoatColors = shuffleArray(WIZARD_COAT_COLOR);
+  var resultEyesColors = shuffleArray(WIZARD_EYES_COLOR);
 
-  for (i = 0; i < WIZARD_COUNT; i++) {
-    wizards[i] = {name: resultNames[i], coatColor: resultCoatColors[i], eyesColor: resultEyesColors[i]};
-    console.log(wizards[i]);
+  for (var i = 0; i < WIZARD_COUNT; i++) {
+    wizards[i] = {name: resultNames[i] + ' ' + resultSurnames[i], coatColor: resultCoatColors[i], eyesColor: resultEyesColors[i]};
   }
 
   return wizards;
 };
-// var generateWizard = function () {
-//   var resultNames = [];
 
-//   for (var i = 0; i < WIZARD_COUNT; i++) {
-//     var randomIndex = Math.floor(Math.random() * WIZARD_COUNT);
-//     console.log('randomIndex Name - ' + randomIndex);
-
-//     resultNames[i] = wizardNames[randomIndex] + ' ' + wizardSurnames[randomIndex];
-//     wizardNames.splice(randomIndex, 1);
-//     wizardSurnames.splice(randomIndex, 1);
-//   }
-
-//   var resultCoatColors = [];
-
-//   for (i = 0; i < WIZARD_COUNT; i++) {
-//     randomIndex = Math.floor(Math.random() * WIZARD_COUNT);
-//     console.log('randomIndex Coat - ' + randomIndex);
-
-//     resultCoatColors[i] = wizardCoatColors[randomIndex];
-//     wizardCoatColors.splice(randomIndex, 1);
-//   }
-
-//   var resultEyesColors = [];
-
-//   for (i = 0; i < wizardEyesColors.length; i++) {
-//     randomIndex = Math.floor(Math.random() * WIZARD_COUNT);
-//     console.log('randomIndex Eyes - ' + randomIndex);
-//     resultEyesColors[i] = wizardEyesColors[randomIndex];
-//     wizardEyesColors.splice(randomIndex, 1);
-//   }
-
-//   var wizards = [];
-//   for (i = 0; i < WIZARD_COUNT; i++) {
-//     wizards[i] = {name: resultNames[i], coatColor: resultCoatColors[i], eyesColor: resultEyesColors[i]};
-//     console.log(wizards[i]);
-//   }
-
-//   return wizards;
-// };
-
+// создание DOM элементов случайно сгенерированных волшебников
+var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var wizards = generateWizard();
-// задаем цвета
+
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
@@ -101,10 +54,17 @@ var renderWizard = function (wizard) {
 
   return wizardElement;
 };
-// выводим фрагменты
+// заполнение блока созданными волшебниками
+var setupSimilarList = document.querySelector('.setup-similar-list');
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
-}
-setupSimilarList.appendChild(fragment);
+
+var buildBlocks = function () {
+  for (var i = 0; i < wizards.length; i++) {
+    fragment.appendChild(renderWizard(wizards[i]));
+  }
+  setupSimilarList.appendChild(fragment);
+};
+buildBlocks();
+
+// показываем блок
 document.querySelector('.setup-similar').classList.remove('hidden');
