@@ -11,19 +11,19 @@ document.querySelector('.setup').classList.remove('hidden');
 
 // функция для тасования элементов массива
 var shuffleArray = function (array) {
-  var currentIndex = array.length;
+  var shuffledArray = array.slice();
+  var currentIndex = shuffledArray.length;
   var temporaryValue;
   var randomIndex;
 
   while (currentIndex > 0) {
-
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+    temporaryValue = shuffledArray[currentIndex];
+    shuffledArray[currentIndex] = shuffledArray[randomIndex];
+    shuffledArray[randomIndex] = temporaryValue;
   }
-  return array;
+  return shuffledArray;
 };
 
 // генерация массива персонажей
