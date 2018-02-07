@@ -5,9 +5,11 @@ var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'К
 var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
+var WIZARD_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
+var setup = document.querySelector('.setup');
 // показываем блок setup
-document.querySelector('.setup').classList.remove('hidden');
+// setup.classList.remove('hidden');
 
 // функция для тасования элементов массива
 var shuffleArray = function (array) {
@@ -68,3 +70,74 @@ buildBlocks();
 
 // показываем блок
 document.querySelector('.setup-similar').classList.remove('hidden');
+
+// действия с окном персонажа
+var KEYCODE_ENTER = 13;
+var KEYCODE_ESCAPE = 27;
+
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = setup.querySelector('.setup-close');
+var setupInput = setup.querySelector('.setup-user-name');
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === KEYCODE_ESCAPE) {
+    closePopup();
+  }
+};
+var openPopup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+var closePopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === KEYCODE_ENTER) {
+    openPopup();
+  }
+});
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === KEYCODE_ENTER) {
+    closePopup();
+  }
+});
+setupInput.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === KEYCODE_ESCAPE) {
+    evt.stopPropagation();
+  }
+});
+// настройка цветов персонажа
+var player = document.querySelector('.setup-player');
+var colorCoat = player.querySelector('.wizard-coat');
+var colorEyes = player.querySelector('.wizard-eyes');
+var colorFireball = player.querySelector('.setup-fireball-wrap');
+// функция получения случайного числа в диапазоне
+var getRandomNumber = function (min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+// функция смены цвета заливки
+var changeFill = function (array, selector) {
+  selector.style.fill = array[getRandomNumber(0, (array.length - 1))];
+};
+// функция смены фона
+var changeBackground = function (array, selector) {
+  selector.style.background = array[getRandomNumber(0, (array.length - 1))];
+};
+
+colorCoat.addEventListener('click', function () {
+  changeFill(WIZARD_COAT_COLOR, colorCoat);
+});
+colorEyes.addEventListener('click', function () {
+  changeFill(WIZARD_EYES_COLOR, colorEyes);
+});
+colorFireball.addEventListener('click', function () {
+  changeBackground(WIZARD_FIREBALL_COLOR, colorFireball);
+});
