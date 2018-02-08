@@ -123,21 +123,27 @@ var colorFireball = player.querySelector('.setup-fireball-wrap');
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-// функция смены цвета заливки
-var changeFill = function (array, selector) {
-  selector.style.fill = array[getRandomNumber(0, (array.length - 1))];
-};
-// функция смены фона
-var changeBackground = function (array, selector) {
-  selector.style.background = array[getRandomNumber(0, (array.length - 1))];
+
+// меняем цвета и задаем их в инпуты
+var colorCoatInput = player.querySelector('input[name="coat-color"]');
+var colorEyesInput = player.querySelector('input[name="eyes-color"]');
+var colorFireballInput = player.querySelector('input[name="fireball-color"]');
+// функция смены цвета или фона в зависимости от того, svg это или нет
+var changeColor = function (array, selector, inputSelector) {
+  if (selector.tagName === 'use') {
+    var newColorProperty = selector.style.fill = array[getRandomNumber(0, (array.length - 1))];
+  }else{
+    var newColorProperty = selector.style.background = array[getRandomNumber(0, (array.length - 1))];
+  }
+  inputSelector.value = newColorProperty;
 };
 
 colorCoat.addEventListener('click', function () {
-  changeFill(WIZARD_COAT_COLOR, colorCoat);
+  changeColor(WIZARD_COAT_COLOR, colorCoat, colorCoatInput);
 });
 colorEyes.addEventListener('click', function () {
-  changeFill(WIZARD_EYES_COLOR, colorEyes);
+  changeColor(WIZARD_EYES_COLOR, colorEyes, colorEyesInput);
 });
 colorFireball.addEventListener('click', function () {
-  changeBackground(WIZARD_FIREBALL_COLOR, colorFireball);
+  changeColor(WIZARD_FIREBALL_COLOR, colorFireball, colorFireballInput);
 });
