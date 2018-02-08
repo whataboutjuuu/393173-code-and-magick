@@ -132,8 +132,8 @@ var colorFireballInput = player.querySelector('input[name="fireball-color"]');
 var changeColor = function (array, selector, inputSelector) {
   if (selector.tagName === 'use') {
     var newColorProperty = selector.style.fill = array[getRandomNumber(0, (array.length - 1))];
-  }else{
-    var newColorProperty = selector.style.background = array[getRandomNumber(0, (array.length - 1))];
+  } else {
+    newColorProperty = selector.style.background = array[getRandomNumber(0, (array.length - 1))];
   }
   inputSelector.value = newColorProperty;
 };
