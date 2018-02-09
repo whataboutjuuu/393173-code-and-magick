@@ -56,6 +56,7 @@ var renderWizard = function (wizard) {
 
   return wizardElement;
 };
+
 // заполнение блока созданными волшебниками
 var setupSimilarList = document.querySelector('.setup-similar-list');
 var fragment = document.createDocumentFragment();
@@ -84,10 +85,12 @@ var onPopupEscPress = function (evt) {
     closePopup();
   }
 };
+
 var openPopup = function () {
   setup.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
 };
+
 var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
@@ -96,29 +99,35 @@ var closePopup = function () {
 setupOpen.addEventListener('click', function () {
   openPopup();
 });
+
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === KEYCODE_ENTER) {
     openPopup();
   }
 });
+
 setupClose.addEventListener('click', function () {
   closePopup();
 });
+
 setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === KEYCODE_ENTER) {
     closePopup();
   }
 });
+
 setupInput.addEventListener('keydown', function (evt) {
   if (evt.keyCode === KEYCODE_ESCAPE) {
     evt.stopPropagation();
   }
 });
+
 // настройка цветов персонажа
 var player = document.querySelector('.setup-player');
 var colorCoat = player.querySelector('.wizard-coat');
 var colorEyes = player.querySelector('.wizard-eyes');
 var colorFireball = player.querySelector('.setup-fireball-wrap');
+
 // функция получения случайного числа в диапазоне
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -128,12 +137,14 @@ var getRandomNumber = function (min, max) {
 var colorCoatInput = player.querySelector('input[name="coat-color"]');
 var colorEyesInput = player.querySelector('input[name="eyes-color"]');
 var colorFireballInput = player.querySelector('input[name="fireball-color"]');
+
 // функция смены цвета или фона в зависимости от того, svg это или нет
 var changeColor = function (array, selector, inputSelector) {
+  var newColorProperty = array[getRandomNumber(0, (array.length - 1))];
   if (selector.tagName === 'use') {
-    var newColorProperty = selector.style.fill = array[getRandomNumber(0, (array.length - 1))];
+    selector.style.fill = newColorProperty;
   } else {
-    newColorProperty = selector.style.background = array[getRandomNumber(0, (array.length - 1))];
+    selector.style.background = newColorProperty;
   }
   inputSelector.value = newColorProperty;
 };
@@ -141,9 +152,11 @@ var changeColor = function (array, selector, inputSelector) {
 colorCoat.addEventListener('click', function () {
   changeColor(WIZARD_COAT_COLOR, colorCoat, colorCoatInput);
 });
+
 colorEyes.addEventListener('click', function () {
   changeColor(WIZARD_EYES_COLOR, colorEyes, colorEyesInput);
 });
+
 colorFireball.addEventListener('click', function () {
   changeColor(WIZARD_FIREBALL_COLOR, colorFireball, colorFireballInput);
 });
