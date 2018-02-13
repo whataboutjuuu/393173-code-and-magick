@@ -4,12 +4,12 @@
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var generateWizard = function () {
     var wizards = [];
-    var resultNames = window.util.shuffleArray(window.const.WIZARD_NAMES);
-    var resultSurnames = window.util.shuffleArray(window.const.WIZARD_SURNAMES);
-    var resultCoatColors = window.util.shuffleArray(window.const.WIZARD_COAT_COLOR);
-    var resultEyesColors = window.util.shuffleArray(window.const.WIZARD_EYES_COLOR);
+    var resultNames = window.util.shuffleArray(window.wizardSettings.WIZARD_NAMES);
+    var resultSurnames = window.util.shuffleArray(window.wizardSettings.WIZARD_SURNAMES);
+    var resultCoatColors = window.util.shuffleArray(window.wizardSettings.WIZARD_COAT_COLOR);
+    var resultEyesColors = window.util.shuffleArray(window.wizardSettings.WIZARD_EYES_COLOR);
 
-    for (var i = 0; i < window.const.WIZARD_COUNT; i++) {
+    for (var i = 0; i < window.wizardSettings.WIZARD_COUNT; i++) {
       wizards[i] = {name: resultNames[i] + ' ' + resultSurnames[i], coatColor: resultCoatColors[i], eyesColor: resultEyesColors[i]};
     }
 

@@ -6,12 +6,12 @@
   var selectorToColor = [
     {
       selectorName: 'wizard-coat',
-      arrayName: window.const.WIZARD_COAT_COLOR,
+      arrayName: window.wizardSettings.WIZARD_COAT_COLOR,
       inputSelector: 'input[name="coat-color"]'
     },
     {
       selectorName: 'wizard-eyes',
-      arrayName: window.const.WIZARD_EYES_COLOR,
+      arrayName: window.wizardSettings.WIZARD_EYES_COLOR,
       inputSelector: 'input[name="eyes-color"]'
     },
     {
