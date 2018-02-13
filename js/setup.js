@@ -1,31 +1,20 @@
 'use strict';
-
-var WIZARD_COUNT = 4;
-var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
-
-
 (function () {
-  // генерация массива персонажей
+  // генерация похожих персонажей
+  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var generateWizard = function () {
     var wizards = [];
-    var resultNames = window.util.shuffleArray(WIZARD_NAMES);
-    var resultSurnames = window.util.shuffleArray(WIZARD_SURNAMES);
-    var resultCoatColors = window.util.shuffleArray(WIZARD_COAT_COLOR);
-    var resultEyesColors = window.util.shuffleArray(WIZARD_EYES_COLOR);
+    var resultNames = window.util.shuffleArray(window.const.WIZARD_NAMES);
+    var resultSurnames = window.util.shuffleArray(window.const.WIZARD_SURNAMES);
+    var resultCoatColors = window.util.shuffleArray(window.const.WIZARD_COAT_COLOR);
+    var resultEyesColors = window.util.shuffleArray(window.const.WIZARD_EYES_COLOR);
 
-    for (var i = 0; i < WIZARD_COUNT; i++) {
+    for (var i = 0; i < window.const.WIZARD_COUNT; i++) {
       wizards[i] = {name: resultNames[i] + ' ' + resultSurnames[i], coatColor: resultCoatColors[i], eyesColor: resultEyesColors[i]};
     }
 
     return wizards;
   };
-
-  // создание DOM элементов случайно сгенерированных волшебников
-  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-  var wizards = generateWizard();
 
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -37,7 +26,7 @@ var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
     return wizardElement;
   };
 
-  // заполнение блока созданными волшебниками
+  var wizards = generateWizard();
   var setupSimilarList = document.querySelector('.setup-similar-list');
   var fragment = document.createDocumentFragment();
 
@@ -49,7 +38,6 @@ var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
   };
   buildBlocks();
 
-  // показываем блок
   document.querySelector('.setup-similar').classList.remove('hidden');
 })();
 
