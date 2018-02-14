@@ -39,5 +39,41 @@
   buildBlocks();
 
   document.querySelector('.setup-similar').classList.remove('hidden');
+
+  var artifactCell = document.querySelector('.setup-artifacts-shop');
+  var targetArea = document.querySelector('.setup-artifacts');
+  var draggedItem = null;
+
+  artifactCell.addEventListener('dragstart', function (evt) {
+    if (evt.target.tagName.toLowerCase() === 'img') {
+      draggedItem = evt.target;
+      evt.dataTransfer.setData('text/plain', evt.target.alt);
+      targetArea.style.outline = '2px dashed red';
+    }
+  });
+
+  targetArea.addEventListener('dragover', function (evt) {
+    evt.preventDefault();
+    return false;
+  });
+
+  targetArea.addEventListener('drop', function (evt) {
+    evt.target.style.backgroundColor = '';
+    evt.currentTarget.style.outline = '';
+    evt.target.appendChild(draggedItem);
+    evt.preventDefault();
+  });
+
+  targetArea.addEventListener('dragenter', function (evt) {
+    evt.target.style.backgroundColor = 'yellow';
+    evt.currentTarget.style.outline = '2px dashed red';
+    evt.preventDefault();
+  });
+
+  targetArea.addEventListener('dragleave', function (evt) {
+    evt.target.style.backgroundColor = '';
+    evt.preventDefault();
+  });
+
 })();
 
