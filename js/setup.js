@@ -78,5 +78,9 @@
     evt.preventDefault();
   });
 
-})();
+  document.addEventListener('dragend', function (evt) {
+    targetArea.style.outline = '';
+    evt.preventDefault();
+  });
 
+})();
