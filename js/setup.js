@@ -1,44 +1,29 @@
 'use strict';
 (function () {
-  // генерация похожих персонажей
+
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-  var generateWizard = function () {
-    var wizards = [];
-    var resultNames = window.util.shuffleArray(window.wizardSettings.WIZARD_NAMES);
-    var resultSurnames = window.util.shuffleArray(window.wizardSettings.WIZARD_SURNAMES);
-    var resultCoatColors = window.util.shuffleArray(window.wizardSettings.WIZARD_COAT_COLOR);
-    var resultEyesColors = window.util.shuffleArray(window.wizardSettings.WIZARD_EYES_COLOR);
-
-    for (var i = 0; i < window.wizardSettings.WIZARD_COUNT; i++) {
-      wizards[i] = {name: resultNames[i] + ' ' + resultSurnames[i], coatColor: resultCoatColors[i], eyesColor: resultEyesColors[i]};
-    }
-
-    return wizards;
-  };
 
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
     return wizardElement;
   };
-
-  var wizards = generateWizard();
+  // получение данных с сервера
   var setupSimilarList = document.querySelector('.setup-similar-list');
-  var fragment = document.createDocumentFragment();
+  var successHandler = function (wizards) {
+    var fragment = document.createDocumentFragment();
 
-  var buildBlocks = function () {
-    for (var i = 0; i < wizards.length; i++) {
+    for (var i = 0; i < 4; i++) {
       fragment.appendChild(renderWizard(wizards[i]));
     }
     setupSimilarList.appendChild(fragment);
+    document.querySelector('.setup-similar').classList.remove('hidden');
   };
-  buildBlocks();
-
-  document.querySelector('.setup-similar').classList.remove('hidden');
+  window.backend.load(successHandler, window.errorAlert);
 
   // перетягивание артефакта
   var artifactCell = document.querySelector('.setup-artifacts-shop');
